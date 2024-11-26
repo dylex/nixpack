@@ -89,6 +89,9 @@ class ModSpec:
             self.pkg = p.get('pkg', None)
         if self.pkg:
             self.spec = nixpack.NixSpec.get(self.pkg)
+            if self.spec.nixspec['compiler_spec'] != self.spec.nixspec['name']:
+                # override name with the compiler_spec (special nixpack case for compiler class)
+                self.spec.name = str(self.spec.as_compiler.name)
         else:
             self.spec = FakeSpec(p)
 
